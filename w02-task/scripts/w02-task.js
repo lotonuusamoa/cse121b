@@ -32,8 +32,7 @@ foodElement.innerHTML = favfoods;
 let newfood = 'Sashimi';
 favfoods.push(newfood);
 foodElement.innerHTML += `<br>${favfoods}`;
-
-
-
-
-
+favfoods.shift ();
+foodElement.innerHTML += `<br>${favfoods}`;
+favfoods.pop ();
+foodElelment.innerHTML += `<br>${favfoods}`;

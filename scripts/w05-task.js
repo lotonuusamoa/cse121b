@@ -1,63 +1,75 @@
 /* W05: Programming Tasks */
 
 /* Declare and initialize global variables */
-const templesElement = document.querySelector("#temples");
+
+const templesElement = document.getElementById('temples');
 let templeList = [];
 
 /* async displayTemples Function */
 const displayTemples = (temples) => {
-    console.log(temples);
-    temples.forEach(temple => {    
-    let article = document.createElement("article");
-    let templeName = document.createElement("h3");
-    templeName.textContent = temple.templeName;
-    let img = document.createElement("img");
-    img.setAttribute("src", temple.imageUrl);
-    img.setAttribute("alt", temple.location);
 
-    article.appendChild(templeName);
-    article.appendChild(img);
+  templesElement.innerHTML = "";
 
+  temples.forEach(temple => {
+    const article = document.createElement('article');
+    article.innerHTML = `
+      <h3>${temple.templeName}</h3>
+      <img src="${temple.imageUrl}" alt="${temple.location}" />
+    `
     templesElement.appendChild(article);
   });
 }
 
 /* async getTemples Function using fetch()*/
-const getTemples = async () =>{
-    const response = await fetch("https://byui-cse.github.io/cse121b-ww-course/resources/temples.json")
-    templeList = await response.json();
-    displayTemples(templeList); 
+const getTemples = async () => {
+  const response = await fetch('https://byui-cse.github.io/cse121b-ww-course/resources/temples.json');
+  templeList = await response.json();
 
-};
-
+  displayTemples(templeList);
+}
 
 /* reset Function */
 const reset = () => {
-    templesElement.innerHTML = "";
+  templesElement.innerHTML = "";
 }
 
+/* sortBy Function */
+const filtered = (temples) => {
+  reset();
 
-/* filterTemples Function */
-const sortBy = (temples) => {
-    reset();
-    switch (document.querySelector("#sortBy").value) {
-      case "utah":
-      displayTemples(temples.filter(temple => temple.location.includes("Utah")));
+  const filter = document.getElementById('filtered').value;
+
+  switch (filter) {
+    case "utah":
+      const templesInUtah = temples.filter(temple => temple.location.includes("Utah"));
+      displayTemples(templesInUtah)
       break;
-      case "notutah":
-        displayTemples(temples.filter(temple => !temple.location.includes("Utah")));
+    case "notutah":
+      const templesOutsideOfUtah = temples.filter(temple => !temple.location.includes("Utah"));
+      displayTemples(templesOutsideOfUtah)
       break;
-      case "older":
-       displayTemples(temples.filter(temple => new Date(temple.dedicated) < new Date(1950, 0, 1)));
-       break;
-      case "all":
-       displayTemples(temples);
+    case "older":
+      const templesBuiltBefore1950 = temples.filter(temple => {
+        const dedicatedDate = new Date(temple.dedicated);
+        const referenceDate = new Date("1950-01-01");
+        return dedicatedDate < referenceDate;
+      });
+      console.log(templesBuiltBefore1950)
+      displayTemples(templesBuiltBefore1950)
       break;
-      
-    }
+    case "all":
+      displayTemples(temples)
+    default:
+      break;
+  }
 }
+
 
 getTemples();
 
 /* Event Listener */
-document.querySelector("#sortBy").addEventListener("change", () => {sortBy(templeList)});
+const selectFilter = document.getElementById('filtered');
+
+selectFilter.addEventListener('change', () => {
+  filtered(templeList)
+});

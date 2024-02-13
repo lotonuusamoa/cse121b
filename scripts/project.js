@@ -13,7 +13,7 @@ const displayTemples = (temples) => {
   temples.forEach(temple => {
     const article = document.createElement('article');
     article.innerHTML = `
-      <h3>${temple.templeName}</h3>
+      <h3>${temple.templateName}</h3>
       <img src="${temple.imageUrl}" alt="${temple.location}" />
     `
     templesElement.appendChild(article);

@@ -40,23 +40,24 @@ const filtered = (temples) => {
   const filter = document.getElementById('filtered').value;
 
   switch (filter) {
-    case "utah":
-      const templesInUtah = temples.filter(temple => temple.location.includes("Utah"));
+    case "chest":
+      const templesInUtah = temples.filter(temple => temple.placement.includes("chest"));
       displayTemples(templesInUtah)
       break;
-    case "notutah":
-      const templesOutsideOfUtah = temples.filter(temple => !temple.location.includes("Utah"));
+    case "nochest":
+      const templesOutsideOfUtah = temples.filter(temple => !temple.placement.includes("Utah"));
       displayTemples(templesOutsideOfUtah)
       break;
-    case "older":
+    case "torso":
       const templesBuiltBefore1950 = temples.filter(temple => {
-        const dedicatedDate = new Date(temple.dedicated);
+        const dedicatedDate = new Date(temple.designdate);
         const referenceDate = new Date("1950-01-01");
         return dedicatedDate < referenceDate;
       });
       console.log(templesBuiltBefore1950)
       displayTemples(templesBuiltBefore1950)
-      break;
+      break; 
+
     case "all":
       displayTemples(temples)
     default:

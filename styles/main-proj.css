@@ -282,7 +282,7 @@ footer {
     border-bottom-left-radius: 5%;
     background-color: #252525;
     box-shadow: 0 0 30px #ffffff;
-    border: 14px solid rgba(255, 255, 255, 0);
+    border: 2px solid rgba(253, 253, 253, 0);
     margin: .5rem;
 }
 
